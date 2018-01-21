@@ -88,11 +88,11 @@ public class ConnectFour {
 
     protected class Board {
         private Integer rows, columns;
-        private Character[][] grid;
+        protected Character[][] grid;
         private final Character EMPTY_SPOT = ' ';
         private final int WINNING_LENGTH = 4;
 
-        public Board(Integer rows, Integer columns){
+        protected Board(Integer rows, Integer columns){
             this.rows = rows;
             this.columns = columns;
             this.grid = new Character[rows][columns];
@@ -108,7 +108,7 @@ public class ConnectFour {
 
         public Integer numColumns(){ return this.columns; }
 
-        public void print() {
+        private void print() {
             String line = "";
             for (int row = 0; row < this.rows; row ++) {
                 line = "|";
@@ -124,7 +124,7 @@ public class ConnectFour {
          * @param column - 0-based
          * @return row, column (0-based) of end spot; null if none possible
          */
-        public ArrayList<Integer> insertPiece(Integer column, Character playerColor) {
+        protected ArrayList<Integer> insertPiece(Integer column, Character playerColor) {
             for (int row = 0; row < this.rows; row++) {
                 if (this.grid[row][column] != EMPTY_SPOT) {
                     // this spot is not available; try spot above
@@ -156,7 +156,12 @@ public class ConnectFour {
          * @param pieceLocation
          * @return true if pieceLocation is part of a winning streak, false otherwise.
          */
-        public boolean won(ArrayList<Integer> pieceLocation) {
+        protected boolean won(ArrayList<Integer> pieceLocation) {
+            // edge case: Called with empty spot in board
+            if (grid[pieceLocation.get(0)][pieceLocation.get(1)] == EMPTY_SPOT) {
+                return false;
+            }
+
             int curRow = pieceLocation.get(0);
             int curColumn = pieceLocation.get(1);
             Character pieceColor = grid[curRow][curColumn];
