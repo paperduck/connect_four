@@ -1,4 +1,4 @@
-package com.alan;
+package com.paperduck;
 
 public class Main {
 

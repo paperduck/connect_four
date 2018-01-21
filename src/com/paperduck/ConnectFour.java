@@ -1,4 +1,4 @@
-package com.alan;
+package com.paperduck;
 
 import java.io.InputStream;
 import java.util.Scanner;
