@@ -107,6 +107,7 @@ public class ConnectFourTest {
         // Verify no spot has (4) in a row
         for (int row = 0; row < board.numRows(); row ++) {
             for (int column = 0; column < board.numColumns(); column++) {
+                // Check every spot in board
                 position.set(0, row);
                 position.set(1, column);
                 Assert.assertEquals(board.won(position), false);

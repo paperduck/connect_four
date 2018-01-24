@@ -6,6 +6,9 @@ import java.util.ArrayList;
 
 public class ConnectFour {
 
+    /**
+     * Main gameplay loop.
+     */
     protected void play() {
         final String COMMAND_QUIT = "q";
         final Integer NUM_PLAYERS = 2;
@@ -23,8 +26,8 @@ public class ConnectFour {
         // Greet user
         prompt = "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n" +
                 "Welcome to Connect Four.\n" +
-                "Enter q to quit.\n" +
                 "Enter commands without any whitespace.\n" +
+                "Enter q to quit.\n" +
                 "(Press the ENTER key to start)\n" +
                 "*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*";
         System.out.println(prompt);
@@ -86,12 +89,20 @@ public class ConnectFour {
     }
 
 
+    /**
+     * Class to represent a game board.
+     */
     protected class Board {
         private Integer rows, columns;
         protected Character[][] grid;
         private final Character EMPTY_SPOT = ' ';
         private final int WINNING_LENGTH = 4;
 
+        /**
+         * Constructor
+         * @param rows      - number of rows in board (height)
+         * @param columns   - number of columns in board (width)
+         */
         protected Board(Integer rows, Integer columns){
             this.rows = rows;
             this.columns = columns;
@@ -99,15 +110,19 @@ public class ConnectFour {
             // Initialize just to be sure
             for (int row = 0; row < rows; row++) {
                 for (int column = 0; column < columns; column++) {
-                    grid[row][column] = ' ';
+                    grid[row][column] = EMPTY_SPOT;
                 }
             }
         }
 
+        // Getters
         public Integer numRows(){ return this.rows; }
-
         public Integer numColumns(){ return this.columns; }
 
+        /**
+         * Display, in the command prompt window,
+         * the current status of the game board.
+         */
         private void print() {
             String line = "";
             for (int row = 0; row < this.rows; row ++) {
@@ -121,8 +136,14 @@ public class ConnectFour {
         }
 
         /**
-         * @param column - 0-based
-         * @return row, column (0-based) of end spot; null if none possible
+         * Insert a game piece into the board.
+         * This starts at the top row of the given column, and iterates
+         * downward, simulating gravity. When the bottom of the board or another
+         * game piece is reached, the piece is inserted there, unless the column
+         * is full.
+         * @param column - (0-based) column to insert piece into.
+         * @param playerColor - color of piece being inserted
+         * @return (row, column) (0-based) of end spot; null if none possible.
          */
         protected ArrayList<Integer> insertPiece(Integer column, Character playerColor) {
             for (int row = 0; row < this.rows; row++) {
@@ -142,9 +163,9 @@ public class ConnectFour {
                     }
                 }
             }
-            // insert into last row
+            // Bottom reached; insert into last row.
             this.grid[this.numRows() - 1][column] = playerColor;
-            // return insertion spot
+            // Return insertion spot.
             ArrayList<Integer> restingPlace = new ArrayList<Integer>(2);
             restingPlace.add(0, this.numRows() - 1);
             restingPlace.add(1, column);
@@ -152,8 +173,9 @@ public class ConnectFour {
         }
 
         /**
-         *
-         * @param pieceLocation
+         * Check if the piece at the given coordinates is part of a line of
+         * consecutive pieces.
+         * @param pieceLocation - (row, column) coordinates of piece to check
          * @return true if pieceLocation is part of a winning streak, false otherwise.
          */
         protected boolean won(ArrayList<Integer> pieceLocation) {
@@ -226,20 +248,25 @@ public class ConnectFour {
         }
     }
 
-    protected class Player {
+    /**
+     * Class to represent one player.
+     * The ID and color name are used for user interface output.
+     * The color code is used to display the piece in the board.
+     */
+    private class Player {
         private Integer id;
         private String colorName;
         private Character colorCode;
 
-        public Player(final Integer id, final String colorName, final Character colorCode) {
+        private Player(final Integer id, final String colorName, final Character colorCode) {
             this.id = id;
             this.colorName = colorName;
             this.colorCode = colorCode;
         }
 
-        public Integer getId() { return this.id; }
-        public String getColorName() { return this.colorName; }
-        public Character getColorCode() { return this.colorCode; }
+        private Integer getId() { return this.id; }
+        private String getColorName() { return this.colorName; }
+        private Character getColorCode() { return this.colorCode; }
     }
 }
 
